@@ -10,7 +10,7 @@ class Ball(pygame.sprite.Sprite):
         self.image=pygame.transform.scale(self.image, (20,20))
         self.rect=self.image.get_rect()
         self.rect.centerx=WIDTH//2
-        self.rect.centery=HEIGHT//2
+        self.rect.centery=500
         self.speed_x=5
         self.speed_y=-5
 
