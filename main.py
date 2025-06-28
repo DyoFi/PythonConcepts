@@ -43,6 +43,9 @@ Columns=7
 x_space=100
 y_space=40
 
+gameover = False
+gamewin=False
+
 for i in range(Rows):
     for j in range(Columns):
         x=start_x+j*x_space
@@ -55,6 +58,30 @@ while gameloop:
         if event.type == pygame.QUIT:
             gameloop=False
 
+    if len(brick_group) == 0:
+        gamewin_text=L.render("Congratulations!", True, ("Green"))
+        gamewin_rect=gamewin_text.get_rect(centerx=WIDTH//2,centery=HEIGHT//2)
+        gamewin=True
+
+    if gamewin:
+        screen.fill("White")
+        screen.blit(gamewin_text,gamewin_rect)
+        pygame.display.update()
+        pygame.time.delay(2000)
+        gameloop=False
+
+    if b.rect.bottom >= HEIGHT:
+        gameover_text=L.render("Game Over!", True, ("Red"))
+        gameover_rect=gameover_text.get_rect(centerx=WIDTH//2,centery=HEIGHT//2)
+        gameover=True
+    
+    if gameover:
+        screen.fill("black")
+        screen.blit(gameover_text,gameover_rect)
+        pygame.display.update()
+        pygame.time.delay(2000)
+        gameloop=False
+
     pad_group.update(event)
     padball_group.update()
     brick_group.update()
@@ -64,10 +91,6 @@ while gameloop:
     score_text=T.render("Score =" +str(p.score), True, ("Green"))
     score_rect=score_text.get_rect(centerx=600,centery=50)
     screen.blit(score_text,score_rect)
-
-    lives_text=T.render("Lives =" +str(p.lives), True, ("Red"))
-    lives_rect=lives_text.get_rect(centerx=80,centery=50)
-    screen.blit(lives_text,lives_rect)
 
     pygame.draw.line(screen,"White",(0,500),(800,500), 1)
 

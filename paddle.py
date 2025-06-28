@@ -10,7 +10,6 @@ class Paddle(pygame.sprite.Sprite):
         self.rect.y=HEIGHT-40
         self.velocity=10
         self.score=0
-        self.lives=5
     
     def update(self, event):
         if event.type==pygame.KEYDOWN:
