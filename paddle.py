@@ -51,10 +51,11 @@ class ComputerPaddle(pygame.sprite.Sprite):
     
     def update(self):
         #write the code for the computer paddle movement
-        if self.rect.centery >= ball.rect.centery:
-            self.rect.centery-=self.velocity
-        if self.rect.centery <= ball.rect.centery:
-            self.rect.centery+=self.velocity
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_w]:
+            self.rect.y-=self.velocity
+        if keys[pygame.K_s]:
+            self.rect.y+=self.velocity
 
 class Ball(pygame.sprite.Sprite):
     def __init__(self, x, y):
@@ -73,10 +74,14 @@ class Ball(pygame.sprite.Sprite):
 
        #write the code for the bounce off condition
        if pygame.sprite.collide_rect(ball,player_paddle):
+           self.velocity_x*=1.25
+           self.velocity_y*=1.25
            self.velocity_x*=-1
            hit_sound.play()
 
        if pygame.sprite.collide_rect(ball,computer_paddle):
+           self.velocity_x+=1.25
+           self.velocity_y+=1.25
            self.velocity_x*=-1
            hit_sound.play()
 
@@ -130,14 +135,18 @@ while running:
         computer_paddle.score+=1
         ball.rect.centerx=WINDOW_WIDTH//2
         ball.rect.centery=WINDOW_HEIGHT//2
+        ball.velocity_x=3
+        ball.velocity_y=3
         ball.velocity_x*=-1
     
     if ball.rect.x >= WINDOW_WIDTH:
         player_paddle.score+=1
         ball.rect.centerx=WINDOW_WIDTH//2
         ball.rect.centery=WINDOW_HEIGHT//2
+        ball.velocity_x=3
+        ball.velocity_y=3
         ball.velocity_x*=-1
-    
+
     #write gameover condition
     if player_paddle.score >= 5:
         gamewin=True
@@ -158,6 +167,7 @@ while running:
         pygame.display.update()
         pygame.time.delay(2000)
         running=False
+        gameover_sound.play()
 
     #Write Ball collision with paddles condition
    
